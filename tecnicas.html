@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset='utf-8'>
+    <title>Técnicas de Integración - Proyecto Cálculo II</title>
+    <link rel='stylesheet'  href="/static/style.css" type="text/css">
+    <script src="/static/app.js" defer></script>
+</head>
+<body>
+    <!--Header-->
+   <header>
+        <div class="logo">
+           <img src="/static/logotipo.jpeg" alt="logotipo" />
+           <h1>Proyecto de Cálculo II</h1>
+        </div>
+        <!---Menu de navegación-->
+        <nav>
+            <ul>
+            <a href="/templates/index.html">Inicio</a>
+            <a href="pages/tecnicas.html">Técnicas </a>
+            <a href="pages/quienes.html">Quienes somos</a>
+             <li> <input type="text" id="search" placeholder="Buscar tema..">
+               <button>🔍</button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <!--Contenido-->
+    <main class="contenido">
+        <section class="intro">
+            <h2>Técnicas de Integración</h2>
+    <p> Las <b>técnicas de integración</b> son métodos que nos permiten
+        resolver integrales complejas. Aquí exploraremos las más importantes:
+        integración definida, indefinida, por partes y por sustitución.
+         Cada una tiene aplicaciones específicas en el campo de la ingeniería y las ciencias.</p>
+        </section>
+
+        <!--Tarjetas de Subtemas-->
+        <section class="cards">
+            <div class="card">
+                <h3>Integración Definida</h3>
+                <p>Aplicada en intervalos cerrados [a,b].</p>
+                <a href="/definida" class="btn">Ver más</a>
+            </div>
+            <div class="card">
+                <h3>Integración Indefinida</h3>
+                <p>Encuentra antiderivadas de funciones.</p>
+                <a href="/indefinida" class="btn">Ver más</a>
+            </div>
+            <div class="card">
+                <h3>Integración Por Partes</h3>
+                <p>Basada en la regla del producto de derivadas.</p>
+                <a href="/partes" class="btn">Ver más</a>
+            </div>
+            <div class="card">
+                <h3>Integración por Sustitución</h3>
+                <p>Usa un cambio de variables para simplificar.</p>
+                <a href="/sustitucion" class="btn">Ver más</a>
+            </div>
+        </section>
+        </main>
+        <!--Footer-->
+        <footer>
+             <p>&copy; 2025 Proyecto Cálculo II - Universidad Mariano Gálvez </p>
+ </footer>
+</body>
+</html>

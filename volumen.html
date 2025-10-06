@@ -1,0 +1,106 @@
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Volúmenes por revolución</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
+  <script src="/static/app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+  <header>
+    <div class="logotipo-title">
+      <img src="/static/logotipo.jpeg" alt="logo" class="logo">
+      <h1>Proyecto Cálculo II</h1>
+    </div>
+    <nav>
+      <a href="/templates/index.html">Inicio</a>
+      <a href="/tecnicas">Técnicas</a>
+      <a href="/quienes">Quiénes somos</a>
+      <input id="search" type="text" placeholder="Buscar tema..">
+      <button>🔍</button>
+    </nav>
+  </header>
+
+  <main class="contenido">
+    <h2>Volúmenes de sólidos (revolución)</h2>
+
+    <section>
+      <h3>Métodos principales</h3>
+      <ul>
+        <li><strong>Discos/Arandelas:</strong> \(V = \pi \int_a^b [R(x)]^2 dx\) (si el sólido gira alrededor del eje x).</li>
+        <li><strong>Cilindros (método de capas):</strong> \(V = 2\pi \int_a^b x f(x) dx\) (usando radio x, altura f(x)).</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>Ejemplo (discos)</h3>
+      <div class="example">
+        Girar \(y=\sqrt{x}\) entre \(0\) y \(1\) alrededor del eje \(x\): \(V=\pi\int_0^1 (\sqrt{x})^2 dx = \pi\int_0^1 x dx = \pi [x^2/2]_0^1 = \pi/2.\)
+      </div>
+    </section>
+
+    <section>
+      <h3>Calculadora de volumen (discos)</h3>
+      <div class="calculadora">
+        <p>Usa función R(x) (radio exterior). Para arandela envía R(x) y r(x) en el mismo campo separado por coma: <code>R(x),r(x)</code></p>
+        <input id="funcVol" placeholder="Ej: sqrt(x)  ó  (x+1),x">
+        <input id="aVol" placeholder="a">
+        <input id="bVol" placeholder="b">
+        <button id="btnVol" class="btn">Calcular volumen (π∫(R^2 - r^2) dx)</button>
+
+        <div class="resultado">
+          <h3>Resultado:</h3>
+          <p id="respVol" class="resultado-texto"></p>
+          <h4>Pasos:</h4>
+          <p id="pasosVol" class="resultado-pasos"></p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer><p>&copy; 2025 Proyecto Cálculo II</p></footer>
+
+  <script>
+    document.getElementById("btnVol").addEventListener("click", async () => {
+      let f = document.getElementById("funcVol").value.trim();
+      const a = document.getElementById("aVol").value.trim();
+      const b = document.getElementById("bVol").value.trim();
+      const resp = document.getElementById("respVol");
+      const pasos = document.getElementById("pasosVol");
+
+      // Si hay coma, interpretamos como R(x), r(x)
+      let R = f, r = "0";
+      if (f.includes(",")) {
+        const parts = f.split(",");
+        R = parts[0].trim();
+        r = parts[1].trim();
+      }
+
+      // Construimos la función integrando (R^2 - r^2)
+      const integrand = `(${R})**2 - (${r})**2`;
+
+      try {
+        const response = await fetch("/api/integral_definida", {
+          method: "POST",
+          headers: {"Content-Type":"application/json"},
+          body: JSON.stringify({ funcion: integrand, a: a, b: b })
+        });
+        const data = await response.json();
+        if (data.resultado) {
+          // Multiplicar por pi
+          resp.innerText = `π * (${data.resultado}) = ${Math.PI} * (${data.resultado}) (ver detalle de pasos abajo)`;
+          pasos.innerText = `Integral base: ∫[${a},${b}] (R^2 - r^2) dx = ${data.resultado}\nVolumen = π * resultado = π * (${data.resultado})`;
+        } else {
+          resp.innerText = "Error: " + (data.error || "respuesta vacía");
+          pasos.innerText = "";
+        }
+      } catch (err) {
+        resp.innerText = "Error en la petición: " + err;
+        pasos.innerText = "";
+      }
+    });
+  </script>
+</body>
+</html>

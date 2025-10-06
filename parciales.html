@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Fracciones Parciales</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
+  <script src="/static/app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+  <header>
+    <div class="logotipo-title">
+      <img src="/static/logotipo.jpeg" alt="logo" class="logo">
+      <h1>Proyecto Cálculo II</h1>
+    </div>
+    <nav>
+      <a href="/templates/index.html">Inicio</a>
+      <a href="/partes">Técnicas</a>
+      <a href="/quienes">Quiénes somos</a>
+      <input id="search" type="text" placeholder="Buscar tema..">
+      <button>🔍</button>
+    </nav>
+  </header>
+
+  <main class="contenido">
+    <h2>Fracciones Parciales</h2>
+
+    <section>
+      <h3>Idea</h3>
+      <p>Descomponer una fracción racional \(\frac{P(x)}{Q(x)}\) en sumas más simples (p. ej. \(\frac{A}{x-r}\), \(\frac{Bx+C}{(x^2+1)}\)) para integrar fácilmente.</p>
+    </section>
+
+    <section>
+      <h3>Pasos básicos</h3>
+      <ol>
+        <li>Si el grado de numerador ≥ grado denominador, hacer división polinomial.</li>
+        <li>Factorizar el denominador.</li>
+        <li>Ajustar coeficientes (método de coeficientes indeterminados).</li>
+      </ol>
+    </section>
+
+    <section>
+      <h3>Ejemplo</h3>
+      <div class="example">
+        Integrar \( \int \frac{2x+3}{(x-1)(x+2)} dx\).<br>
+        Descomposición: \(\frac{2x+3}{(x-1)(x+2)}=\frac{A}{x-1}+\frac{B}{x+2}\). Resolver para A,B => A=1, B=1. Entonces integral = \(\int (\frac{1}{x-1}+\frac{1}{x+2})dx = \ln|x-1| + \ln|x+2| + C\).
+      </div>
+    </section>
+
+    <section>
+      <h3>Calculadora (indefinida)</h3>
+      <div class="calculadora">
+        <input id="funcParcial" placeholder="Ej: (2*x+3)/((x-1)*(x+2))">
+        <button id="btnParcial" class="btn">Calcular integral</button>
+        <div class="resultado">
+          <h3>Resultado:</h3>
+          <p id="respParcial" class="resultado-texto"></p>
+          <h4>Pasos:</h4>
+          <p id="pasosParcial" class="resultado-pasos"></p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer><p>&copy; 2025 Proyecto Cálculo II</p></footer>
+
+  <script>
+    document.getElementById("btnParcial").addEventListener("click", async () => {
+      const f = document.getElementById("funcParcial").value.trim();
+      const resp = document.getElementById("respParcial");
+      const pasos = document.getElementById("pasosParcial");
+      try {
+        const response = await fetch("/api/integral_indefinida", {
+          method: "POST",
+          headers: {"Content-Type":"application/json"},
+          body: JSON.stringify({ funcion: f })
+        });
+        const data = await response.json();
+        if (data.resultado) {
+          resp.innerText = data.resultado;
+          pasos.innerText = data.pasos;
+        } else {
+          resp.innerText = "Error: " + (data.error || "respuesta vacía");
+          pasos.innerText = "";
+        }
+      } catch (err) {
+        resp.innerText = "Error en la petición: " + err;
+        pasos.innerText = "";
+      }
+    });
+  </script>
+</body>
+</html>

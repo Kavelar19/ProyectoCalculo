@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Integración por Sustitución</title>
+  <link rel='stylesheet' type='text/css' href="/static/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
+<script src="/static/app.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+  <!--Header-->
+    <header>
+        <div class="logotipo-title">
+          <img src="/static/logotipo.jpeg" alt="logo" class="logo" >
+          <h1>Proyecto Cálculo II</h1>
+    </div>
+    <nav>
+        <a href="/templates/index.html">Inicio</a>
+        <a href="tecnicas.html">Técnicas</a>
+        <a href="quienes.html">Quiénes somos</a>
+        <input type="text" placeholder="Buscar tema..">
+        <button>🔍</button>
+    </nav>
+    </header>
+
+  <main class="contenido">
+    <h2>Integración por Sustitución</h2>
+    <p>Consiste en realizar un cambio de variable para simplificar la integral. Si u = g(x), entonces:</p>
+    <p class="formula">∫ f(g(x)) g’(x) dx = ∫ f(u) du</p>
+
+    <h3>Ejemplo:</h3>
+    <p>∫ 2x·cos(x²) dx → u = x², du = 2x dx → ∫ cos(u) du = sen(u) + C = sen(x²) + C</p>
+
+    <section class="calculadora">
+      <h2>Calculadora (Sustitución)</h2>
+      <input type="text" id="funcionSust" placeholder="Ej: 2x*cos(x^2)">
+      <button onclick="calcularIntegralSust()">Calcular</button>
+      <div class="resultado">
+        <h3>Resultado:</h3>
+        <p id="respuestaSust"></p>
+        <h4>Pasos:</h4>
+        <p id="pasosSust"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Proyecto Cálculo II</p>
+  </footer>
+</body>
+</html>

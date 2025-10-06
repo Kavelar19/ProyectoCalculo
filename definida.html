@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset='utf-8'>
+    <title>Integración Definida </title>
+    <link rel='stylesheet' type='text/css' href="/static/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
+<script src="/static/app.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+</head>
+<body>
+    <!--Header-->
+    <header>
+        <div class="logotipo-title">
+          <img src="/static/logotipo.jpeg" alt="logo" class="logo" >
+          <h1>Proyecto Cálculo II</h1>
+    </div>
+    <nav>
+        <a href="/templates/index.html">Inicio</a>
+        <a href="tecnicas.html">Técnicas</a>
+        <a href="quienes.html">Quiénes somos</a>
+        <input type="text" placeholder="Buscar tema..">
+        <button>🔍</button>
+    </nav>
+    </header>
+     <!--Contenido-->
+       <main class="contenido">
+         <h2>Integración Definida</h2>
+         <section>
+  <h3>¿Qué es una integral definida?</h3>
+  <p>La integral definida mide la acumulación entre dos puntos: 
+  \(\int_a^b f(x)\,dx\). 
+  Por el Teorema Fundamental del Cálculo, si \(F\) es antiderivada de \(f\),</p>
+
+  <p style="font-weight:700;">\(\int_a^b f(x)\,dx = F(b) - F(a).\)</p>
+
+  <p>Geométricamente se interpreta como <em>el área algebraica</em> entre la curva y el eje \(x\) desde \(x=a\) hasta \(x=b\). 
+  Si la función está debajo del eje, el resultado será negativo.</p>
+
+  <div class="example">
+    <strong>Propiedades clave</strong>
+    <ul>
+      <li>Linealidad: \(\int_a^b (c f + g) = c\int_a^b f + \int_a^b g\).</li>
+      <li>Suma en intervalos: \(\int_a^b + \int_b^c = \int_a^c\).</li>
+      <li>Cambio de orientación: \(\int_a^b = -\int_b^a\).</li>
+      <li>Simetría: si \(f\) es par, \(\int_{-a}^a f = 2\int_0^a f\); 
+      si es impar, \(\int_{-a}^a f = 0\).</li>
+    </ul>
+  </div>
+  <div>
+   <div class="example">
+  <strong>Ejemplo rápido</strong>
+  \(\int_0^2 (3x^2 - 1)\,dx = \Big[x^3 - x\Big]_0^2 = (8-2)-0 = 6\)
+</div>
+<section>
+  <h3>Interpretación visual</h3>
+  <p>Puedes imaginar la integral definida como <b>pintar el área</b> bajo la curva entre dos límites. 
+  Si la curva cruza el eje, el área de arriba se suma y la de abajo se resta.</p>
+
+  <div class="example">
+    <strong>Ejemplo gráfico</strong>
+    La integral de \(f(x)=x\) entre 0 y 2 es un triángulo de base 2 y altura 2:
+Área = \(\tfrac{1}{2}\times 2\times 2 = 2\).
+</div>
+  <!-- Imagen PNG -->
+  <div style="margin-top:15px;">
+    <img src="/static/visual.png" alt="Área bajo la curva" width="250" style="border: 2px solid #4CAF50; border-radius: 8px;">
+  </div>
+</section>
+
+<section>
+  <h3>Ejemplos paso a paso</h3>
+
+  <div class="example">
+    <strong>Ejemplo 1 (básico)</strong>
+    \(\int_0^3 (2x+1)\,dx\)
+
+Antiderivada: \(F(x)=x^2+x\).
+
+Evaluamos: \(F(3)-F(0) = (9+3)-(0)=12.\)
+  </div>
+
+  <div class="example">
+    <strong>Ejemplo 2 (sustitución)</strong>
+   \(\int_0^1 2x e^{x^2} dx\)
+
+Sea \(u=x^2 \Rightarrow du=2x dx\).
+Límites: \(u(0)=0,\; u(1)=1\).
+
+\(\int_0^1 e^u du = e^1 - e^0 = e-1\).
+  </div>
+
+  <div class="example">
+    <strong>Ejemplo 3 (área entre curvas)</strong>
+   \(\int_0^1 (x - x^2)\,dx\)
+
+Antiderivada: \(\tfrac{x^2}{2} - \tfrac{x^3}{3}\).
+
+Evaluamos: \((\tfrac{1}{2}-\tfrac{1}{3})= \tfrac{1}{6}.\)
+  </div>
+</section>
+
+<>
+  <h2>Aplicaciones</h2>
+  <ul>
+    <li><b>Área bajo la curva:</b> \(A = \int_a^b f(x)\,dx\).</li>
+    <li><b>Área entre curvas:</b> \(A = \int_a^b (f(x)-g(x))\,dx\).</li>
+    <li><b>Volúmenes de revolución:</b> \(V=\pi\int_a^b (R(x))^2 dx\).</li>
+    <li><b>Promedio de una función:</b> \(f_{prom}=\tfrac{1}{b-a}\int_a^b f(x)\,dx\).</li>
+    <li><b>Trabajo:</b> \(W=\int_a^b F(x)\,dx\).</li>
+  </ul>
+
+  <div class="example">
+  <strong>Ejemplo de promedio</strong>
+  
+  \(\tfrac{1}{\pi}\int_0^\pi \sin x \,dx\)
+
+  Antiderivada: \(-\cos x\)  
+  Evaluar: \((-(-1))-(-1))=2\)
+
+  Promedio: \(\frac{2}{\pi}\)
+</div>
+
+<section>
+  <h2>Casos especiales</h2>
+  <p>Algunas integrales se simplifican por la simetría de la función:</p>
+
+  <div class="example">
+    <strong>Ejemplo (función impar)</strong>
+    \(\int_{-3}^3 x^3 dx = 0\) 
+porque el área de la izquierda y la derecha se cancelan.
+  </div>
+
+  <div class="example">
+    <strong>Ejemplo (función par)</strong>
+    \(\int_{-2}^2 x^2 dx = 2\int_0^2 x^2 dx\).
+
+Antiderivada: \(\tfrac{x^3}{3}\).
+Evaluar: \(2\cdot (\tfrac{8}{3}-0)=\tfrac{16}{3}\).
+  </div>
+</section>
+
+<section>
+  <h2>Tips y errores comunes</h2>
+  <ul>
+    <li>No olvides cambiar <b>los límites</b> en un cambio de variable.</li>
+    <li>El área bajo el eje se cuenta como negativa.</li>
+    <li>Las propiedades de simetría ahorran tiempo.</li>
+    <li>Una integral definida no siempre representa un área: 
+    también puede dar trabajo, volumen o promedio.</li>
+  </ul>
+
+  <div class="example">
+    <strong>Mini repaso</strong>
+    \(\int_a^b f(x)\,dx = F(b)-F(a)\)
+  </div>
+</section>
+      <!-- Calculadora de Integral Definida -->
+<section class="calculadora">
+      <h2>Calculadora de Integral Definida</h2>
+      <input type="text" id="funcionDef" placeholder="Ej: x**2 + 6" style="width: 40%; margin-right: 10px;">
+      <input type="text" id="limiteA" placeholder="Límite a" style="width: 20%; margin-right: 10px;">
+      <input type="text" id="limiteB" placeholder="Límite b" style="width: 20%; margin-right: 10px;">
+      <br><br>
+      <button id="btnCalcularDef" type="button" class="btn">Calcular</button>
+
+      <div class="resultado" style="margin-top: 20px; line-height: 1.4; white-space: normal; word-wrap: break-word; max-width: 600px;">
+        <h3>Resultado:</h3>
+        <p id="respuestaDef" style="word-wrap: break-word; max-width: 600px;"></p>
+        <h4>Pasos:</h4>
+        <div id="math-content" style="margin-top: 10px; max-width: 600px; overflow-wrap: break-word;">{{ pasos|safe }}</div>
+      </div>
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          if (window.MathJax) {
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    </section>
+  </main>
+    <footer>
+        <p>&copy; 2025 Proyecto Cálculo II</p>
+    </footer>
+</body>
+</html>

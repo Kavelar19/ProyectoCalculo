@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Sustituciones Trigonométricas</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
+  <script src="/static/app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+  <header>
+    <div class="logotipo-title">
+      <img src="/static/logotipo.jpeg" alt="logo" class="logo">
+      <h1>Proyecto Cálculo II</h1>
+    </div>
+    <nav>
+      <a href="/templates/index.html">Inicio</a>
+      <a href="/tecnicas">Técnicas</a>
+      <a href="/quienes">Quiénes somos</a>
+      <input id="search" type="text" placeholder="Buscar tema..">
+      <button>🔍</button>
+    </nav>
+  </header>
+
+  <main class="contenido">
+    <h2>Sustituciones Trigonométricas</h2>
+
+    <section>
+      <h3>Casos útiles</h3>
+      <ul>
+        <li>Si aparece \(\sqrt{a^2 - x^2}\), usar \(x = a\sin\theta\).</li>
+        <li>Si aparece \(\sqrt{a^2 + x^2}\), usar \(x = a\tan\theta\).</li>
+        <li>Si aparece \(\sqrt{x^2 - a^2}\), usar \(x = a\sec\theta\).</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>Ejemplo</h3>
+      <div class="example">
+        Calcular \( \int \frac{dx}{\sqrt{a^2 - x^2}} \). Con \(x=a\sin\theta\): \(dx=a\cos\theta d\theta\) y la integral se transforma en \(\int d\theta = \theta + C = \arcsin(x/a)+C.\)
+      </div>
+    </section>
+
+    <section>
+      <h3>Calculadora (indefinida)</h3>
+      <div class="calculadora">
+        <input id="funcSust" placeholder="Ej: 1/sqrt(4 - x**2)">
+        <button id="btnSust" class="btn">Calcular integral indefinida</button>
+        <div class="resultado">
+          <h3>Resultado:</h3>
+          <p id="respSust" class="resultado-texto"></p>
+          <h4>Pasos:</h4>
+          <p id="pasosSust" class="resultado-pasos"></p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h3>Consejos</h3>
+      <ul>
+        <li>Siempre transforma también los límites si la integral es definida.</li>
+        <li>Después de integrar con \(\theta\), vuelve a \(x\) con triángulo o relaciones trig.</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer><p>&copy; 2025 Proyecto Cálculo II</p></footer>
+
+  <script>
+    document.getElementById("btnSust").addEventListener("click", async () => {
+      const f = document.getElementById("funcSust").value.trim();
+      const resp = document.getElementById("respSust");
+      const pasos = document.getElementById("pasosSust");
+      try {
+        const response = await fetch("/api/integral_indefinida", {
+          method: "POST",
+          headers: {"Content-Type":"application/json"},
+          body: JSON.stringify({ funcion: f })
+        });
+        const data = await response.json();
+        if (data.resultado) {
+          resp.innerText = data.resultado;
+          pasos.innerText = data.pasos;
+        } else {
+          resp.innerText = "Error: " + (data.error || "respuesta vacía");
+          pasos.innerText = "";
+        }
+      } catch (err) {
+        resp.innerText = "Error en la petición: " + err;
+        pasos.innerText = "";
+      }
+    });
+  </script>
+</body>
+</html>

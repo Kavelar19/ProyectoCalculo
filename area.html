@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Área bajo la función</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
+  <script src="/static/app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+  <header>
+    <div class="logotipo-title">
+      <img src="/static/logotipo.jpeg" alt="logo" class="logo">
+      <h1>Proyecto Cálculo II</h1>
+    </div>
+    <nav>
+      <a href="/templates/index.html">Inicio</a>
+      <a href="/tecnicas">Técnicas</a>
+      <a href="/quienes">Quiénes somos</a>
+      <input id="search" type="text" placeholder="Buscar tema..">
+      <button>🔍</button>
+    </nav>
+  </header>
+
+  <main class="contenido">
+    <h2>Área bajo una función</h2>
+
+    <section>
+      <h3>Definición</h3>
+      <p>El área exacta entre \(f(x)\) y el eje \(x\) en \([a,b]\) es \( \int_a^b f(x)\,dx\). Si quieres área absoluta (si cruza el eje) usa \( \int_a^b |f(x)| dx.\)</p>
+    </section>
+
+    <section>
+      <h3>Ejemplo</h3>
+      <div class="example">
+        Área entre \(f(x)=x\) y \(g(x)=x^2\) en \([0,1]\): \( \int_0^1 (x - x^2) dx = \tfrac{1}{6}.\)
+      </div>
+    </section>
+
+    <section>
+      <h3>Calculadora (área definida)</h3>
+      <div class="calculadora">
+        <input id="funcArea" placeholder="Ej: x - x**2">
+        <input id="aArea" placeholder="a">
+        <input id="bArea" placeholder="b">
+        <button id="btnArea" class="btn">Calcular área</button>
+        <div class="resultado">
+          <h3>Resultado:</h3>
+          <p id="respArea" class="resultado-texto"></p>
+          <h4>Pasos:</h4>
+          <p id="pasosArea" class="resultado-pasos"></p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer><p>&copy; 2025 Proyecto Cálculo II</p></footer>
+
+  <script>
+    document.getElementById("btnArea").addEventListener("click", async () => {
+      const f = document.getElementById("funcArea").value.trim();
+      const a = document.getElementById("aArea").value.trim();
+      const b = document.getElementById("bArea").value.trim();
+      const resp = document.getElementById("respArea");
+      const pasos = document.getElementById("pasosArea");
+      try {
+        const response = await fetch("/api/integral_definida", {
+          method: "POST",
+          headers: {"Content-Type":"application/json"},
+          body: JSON.stringify({ funcion: f, a: a, b: b })
+        });
+        const data = await response.json();
+        if (data.resultado) {
+          resp.innerText = data.resultado;
+          pasos.innerText = data.pasos;
+        } else {
+          resp.innerText = "Error: " + (data.error || "respuesta vacía");
+          pasos.innerText = "";
+        }
+      } catch (err) {
+        resp.innerText = "Error en la petición: " + err;
+        pasos.innerText = "";
+      }
+    });
+  </script>
+</body>
+</html>

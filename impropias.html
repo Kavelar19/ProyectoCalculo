@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Integrales Impropias</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
+  <script src="/static/app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+  <header>
+    <div class="logotipo-title">
+      <img src="/static/logotipo.jpeg" alt="logo" class="logo">
+      <h1>Proyecto Cálculo II</h1>
+    </div>
+    <nav>
+      <a href="/index.html">Inicio</a>
+      <a href="/templates/pages/tecnicas.html">Técnicas</a>
+      <a href="/quienes">Quiénes somos</a>
+      <input id="search" type="text" placeholder="Buscar tema..">
+      <button>🔍</button>
+    </nav>
+  </header>
+
+  <main class="contenido">
+    <h2>Integrales Impropias</h2>
+
+    <section>
+      <h3>¿Qué son?</h3>
+      <p>Una integral es <strong>impropia</strong> cuando alguno de los límites es infinito o la función tiene una discontinuidad en el intervalo. Se evalúa como un límite:</p>
+      <p style="font-weight:700;">Si \( \int_a^{\infty} f(x)\,dx \) entonces \( \int_a^{\infty} f(x)\,dx = \lim_{b\to\infty} \int_a^{b} f(x)\,dx.\)</p>
+      <p>Si existe el límite, la integral <em>converge</em>; si no existe/tiende a infinito, <em>diverge</em>.</p>
+    </section>
+
+    <section>
+      <h3>Ejemplos</h3>
+      <div class="example">
+        <strong>Ejemplo 1 (límite infinito)</strong><br>
+        Evaluar \( \int_1^{\infty} \frac{1}{x^2}\,dx \).<br>
+        \(\int_1^{b} x^{-2} dx = \left[-x^{-1}\right]_1^b = -\tfrac{1}{b} + 1.\)  
+        Tomando \(b\to\infty\) queda \(1\). Converge.
+      </div>
+
+      <div class="example">
+        <strong>Ejemplo 2 (discontinuidad interior)</strong><br>
+        Evaluar \( \int_0^1 \frac{1}{\sqrt{x}} dx \) (discontinua en 0).<br>
+        Tomamos límite: \(\lim_{\epsilon\to0^+}\int_{\epsilon}^{1} x^{-1/2} dx = \lim_{\epsilon\to0^+} [2\sqrt{x}]_{\epsilon}^{1} = 2.\)
+      </div>
+    </section>
+
+    <section>
+      <h3>Mini calculadora (aprox. impropias)</h3>
+      <p>Si escribes <code>infty</code> o <code>inf</code> se aproximará por <code>1e6</code> (usa esto para comprobar convergencia rápida).</p>
+      <div class="calculadora">
+        <input id="funcImpropia" placeholder="Ej: 1/x**2 o 1/sqrt(x)">
+        <input id="aImpropia" placeholder="Límite inferior (ej: 1 ó 0)">
+        <input id="bImpropia" placeholder="Límite superior (ej: infty ó 1)">
+        <button id="btnImpropia" class="btn">Calcular</button>
+
+        <div class="resultado">
+          <h3>Resultado:</h3>
+          <p id="respImpropia" class="resultado-texto"></p>
+          <h4>Detalles:</h4>
+          <p id="pasosImpropia" class="resultado-pasos"></p>
+        </div>
+      </div>
+
+    </section>
+
+    <section>
+      <h3>Notas y criterios</h3>
+      <ul>
+        <li>Comparación: si \(0 \le f(x) \le g(x)\) y \(\int g\) converge, entonces \(\int f\) converge.</li>
+        <li>Integral p: \(\int_1^{\infty} \frac{1}{x^p} dx\) converge si \(p>1\), diverge si \(p\le1\).</li>
+      </ul>
+    </section>
+  </main>
+  <script>
+    // Manejo simple cliente -> servidor (usa /api/integral_definida)
+    document.getElementById("btnImpropia").addEventListener("click", async () => {
+      const f = document.getElementById("funcImpropia").value.trim();
+      let a = document.getElementById("aImpropia").value.trim();
+      let b = document.getElementById("bImpropia").value.trim();
+      const resp = document.getElementById("respImpropia");
+      const pasos = document.getElementById("pasosImpropia");
+
+      // Reemplazo aproximado para infinito
+      let aviso = "";
+      if (/infty|inf/i.test(a)) { a = "-1e6"; aviso += "Se aproximó límite inferior a -1e6. "; }
+      if (/infty|inf/i.test(b)) { b = "1e6"; aviso += "Se aproximó límite superior a 1e6. "; }
+
+      try {
+        const response = await fetch("/api/integral_definida", {
+          method: "POST",
+          headers: {"Content-Type":"application/json"},
+          body: JSON.stringify({ funcion: f, a: a, b: b })
+        });
+        const data = await response.json();
+        if (data.resultado) {
+          resp.innerText = data.resultado + (aviso ? " ("+aviso.trim()+")" : "");
+          pasos.innerText = data.pasos;
+        } else {
+          resp.innerText = "Error: " + (data.error || "respuesta vacía");
+          pasos.innerText = "";
+        }
+      } catch (err) {
+        resp.innerText = "Error en la petición: " + err;
+        pasos.innerText = "";
+      }
+    });
+  </script>
+
+  <footer><p>&copy; 2025 Proyecto Cálculo II</p></footer>
+  
