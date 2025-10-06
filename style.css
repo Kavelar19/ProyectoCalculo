@@ -1,0 +1,151 @@
+/*Estilo general*/
+body{
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background: #f7f9fc;
+    color: #333;
+    
+}
+/*Encabezado*/
+header{
+  background: #003366;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+}
+ .logotipo-container {
+  display: flex;
+  align-items: center;
+}
+
+.header .logotipo {
+  height: 20px;
+  margin-right: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+header.logotipo img{
+    width: 20px;
+    margin-right: 10px;
+}
+header nav ul{
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+header nav ul li{
+    display: flex;
+    align-items: center;
+}
+header nav a{
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+#search {
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+}
+/*Hero seccion*/
+.hero{
+ text-align: center;
+ padding: 60px;
+ background: linear-gradient(to right, #3949ab, #5c6bc0);
+ color: white;
+}
+/* Cards*/
+.cards{
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 4opx;
+}
+.card{
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0,0.1);
+    transition: transform 0.2s;
+}
+.card:hover{
+    transform: scale(1.05);
+}
+.calculadora {
+  max-width: 450px;
+  margin: 30px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 15px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.calculadora h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.formulario input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.btn {
+  background: #4CAF50;
+  color: white;
+  font-size: 16px;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn:hover {
+  background: #45a049;
+}
+
+.resultado {
+  margin-top: 20px;
+  padding: 15px;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.resultado h3, .resultado h4 {
+  margin-bottom: 8px;
+  color: #222;
+}
+
+.resultado-texto {
+  font-weight: bold;
+  font-size: 18px;
+  color: #2c3e50;
+}
+
+.resultado-pasos {
+  font-size: 15px;
+  color: #555;
+}
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px;
+  background: #1a237e;
+  color: white;
+}
